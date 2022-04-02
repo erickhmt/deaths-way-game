@@ -2137,6 +2137,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2886858860414743750, guid: 8c59021ea87d1964b8d0ab07a96d9e78, type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2886858861513884017, guid: 8c59021ea87d1964b8d0ab07a96d9e78, type: 3}
       propertyPath: m_Name
       value: Scythe

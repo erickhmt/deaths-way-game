@@ -7,6 +7,7 @@ public class Scythe : MonoBehaviour
     public Sprite normalSprite, throwSprite;
     public RectTransform arrowRectTransform;
     public Texture2D cursorTexture;
+    public bool isReturning, isThrowing = false;
     
     private Rigidbody2D rb;
     private Vector2 direction;
@@ -20,14 +21,24 @@ public class Scythe : MonoBehaviour
         rb = transform.GetComponent<Rigidbody2D>(); 
         coll = transform.GetComponent<Collider2D>();    
         spriteTransform = transform.Find("ScytheSprite");
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
-        Get(GameObject.FindGameObjectWithTag("Player").transform);
+        Get();
     }
     void FixedUpdate()
     {
-        if(!playerTransform)
+        if(isThrowing)
         {
             spriteTransform.Rotate(new Vector3(0f, 0f, -speed * 100 * Time.fixedDeltaTime));
+            
+            if(isReturning)
+            {
+                Vector3 distance = Camera.main.WorldToScreenPoint(playerTransform.position) - Camera.main.WorldToScreenPoint(transform.position);
+                Debug.Log(distance);
+                if (distance.magnitude < new Vector3(1f, 1f, 1f).magnitude)
+                    Get();
+                direction = distance.normalized;
+            }
             rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
 
             if(!spriteTransform.GetComponent<SpriteRenderer>().isVisible)
@@ -53,7 +64,7 @@ public class Scythe : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.gameObject.tag == "Player")
-            Get(collider.gameObject.transform);
+            Get();
     }
     
     void OnCollisionEnter2D(Collision2D collision)
@@ -74,19 +85,25 @@ public class Scythe : MonoBehaviour
 
     public void Throw(Vector2 direction)
     {
-        if(playerTransform)
+        if(!isReturning)
         {
             transform.SetParent(null);
             this.direction = direction; 
             spriteTransform.GetComponent<SpriteRenderer>().sprite = throwSprite;
-            playerTransform = null;
+            isThrowing = true;
         }
     }
 
-    public void Get(Transform playerTrasform)
+    public void RequestReturn()
     {
+        isReturning = true;
+    }
+
+    public void Get()
+    {
+        isReturning = false;
+        isThrowing = false;
         transform.SetParent(handBone);
-        this.playerTransform = playerTrasform;
         spriteTransform.GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
