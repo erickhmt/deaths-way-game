@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1047461825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1987,6 +1987,10 @@ PrefabInstance:
       propertyPath: handBone
       value: 
       objectReference: {fileID: 6836991208589822089}
+    - target: {fileID: 2886858861513884018, guid: 8c59021ea87d1964b8d0ab07a96d9e78, type: 3}
+      propertyPath: cursorTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: affb3b4628b225a43929e49eec518be2, type: 3}
     - target: {fileID: 2886858861513884018, guid: 8c59021ea87d1964b8d0ab07a96d9e78, type: 3}
       propertyPath: arrowRectTransform
       value: 
