@@ -5,6 +5,7 @@ using UnityEngine;
 public class Scythe : MonoBehaviour
 {
     public float speed;
+    public Transform handBone;
     
     private Rigidbody2D rb;
     private Vector2 direction;
@@ -24,40 +25,45 @@ public class Scythe : MonoBehaviour
     {
         if(!playerTransform)
         {
-            spriteTransform.Rotate(new Vector3(0f, 0f, -speed * 2 * Time.fixedDeltaTime));
+            spriteTransform.Rotate(new Vector3(0f, 0f, -speed * Time.fixedDeltaTime));
         }
         else
         {
             rb.velocity = Vector2.zero;
-            coll.isTrigger = true;
-            transform.position = playerTransform.position;
+            transform.SetParent(handBone);
+            transform.localPosition = new Vector3(0f, 0f, 0f);
+            transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
+            spriteTransform.transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collider.gameObject.tag == "Player")
         {
-            playerTransform = collision.gameObject.transform;
+            playerTransform = collider.gameObject.transform;
         }
         else
         {
-            ContactPoint2D contact = collision.GetContact(0);
-
-            int randomDirectionValue = Random.Range(-10, 10);
-            randomDirectionValue = randomDirectionValue > 0 ? 1 : -1;
+            Vector2 direction = -rb.velocity.normalized;
+            float randomDirectionValue = Random.Range(-0.75f, 0.75f);
             
-            if(contact.normal.x != 0)
-                direction = new Vector2(contact.normal.x, randomDirectionValue).normalized;
-            else if(contact.normal.y != 0)
-                direction = new Vector2(randomDirectionValue, contact.normal.y).normalized;
+            if(direction.x > direction.y)
+                direction = new Vector2(direction.x, direction.y + randomDirectionValue).normalized;
+            else if(direction.x < direction.y)
+                direction = new Vector2(direction.x + randomDirectionValue, direction.y).normalized;
+
+            rb.velocity = direction * speed * Time.fixedDeltaTime; 
         }
     }
 
     public void Throw(Vector2 direction)
     {
-        playerTransform = null;
-        rb.velocity = direction * speed * Time.fixedDeltaTime; 
-        coll.isTrigger = false;
+        if(playerTransform)
+        {
+            transform.SetParent(null);
+            playerTransform = null;
+            rb.velocity = direction * speed * Time.fixedDeltaTime; 
+        }
     }
 }
