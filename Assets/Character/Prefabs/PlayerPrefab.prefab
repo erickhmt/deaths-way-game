@@ -263,7 +263,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153014176006673006}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -17.5, y: -47.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -337,8 +337,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0423c6a223d98d0449eac4d5888843dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staminaConsume: 25
-  manaConsume: 50
+  staminaConsume: 50
+  manaConsume: 0
   stamina: 0
   mana: 0
 --- !u!1 &1678112962562316577

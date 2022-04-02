@@ -42,7 +42,10 @@ public class CharacterController : MonoBehaviour
         // Throw scythe
         if(Input.GetKeyDown(KeyCode.Mouse0))
             if(!scythe.isThrowing)
+            {
                 scythe.Throw(-mouseDirection);
+                animator.SetTrigger("throw");
+            }
             else
                 scythe.RequestReturn();
 
