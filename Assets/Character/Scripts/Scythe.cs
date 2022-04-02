@@ -44,18 +44,20 @@ public class Scythe : MonoBehaviour
         {
             playerTransform = collider.gameObject.transform;
         }
-        else
-        {
-            Vector2 direction_temp = -direction;
-            float randomDirectionValue = Random.Range(-.5f, .5f);
-            
-            if(Mathf.Abs(direction_temp.x) > Mathf.Abs(direction_temp.y))
-                direction_temp = new Vector2(direction_temp.x, direction_temp.y + randomDirectionValue).normalized;
-            else if(Mathf.Abs(direction_temp.x) < Mathf.Abs(direction_temp.y))
-                direction_temp = new Vector2(direction_temp.x + randomDirectionValue, direction_temp.y).normalized;
+    }
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+        ContactPoint2D contact = collision.GetContact(0);
 
-            direction = direction_temp; 
-        }
+        int randomDirectionValue = Random.Range(-10, 10);
+        randomDirectionValue = randomDirectionValue > 0 ? 1 : -1;
+
+        if(contact.normal.x != 0)
+                direction = new Vector2(contact.normal.x, randomDirectionValue).normalized;
+            else if(contact.normal.y != 0)
+                direction = new Vector2(randomDirectionValue, contact.normal.y).normalized;
     }
 
     public void Throw(Vector2 direction)
