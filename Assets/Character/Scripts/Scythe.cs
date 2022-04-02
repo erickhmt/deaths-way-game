@@ -101,6 +101,12 @@ public class Scythe : MonoBehaviour
             direction = contact.normal.normalized;
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.gameObject.tag == "Player")
+            Get();
+    }
+
     public void Throw(Vector2 direction)
     {
         if(!isReturning)
