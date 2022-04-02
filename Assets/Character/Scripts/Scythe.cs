@@ -25,11 +25,12 @@ public class Scythe : MonoBehaviour
     {
         if(!playerTransform)
         {
-            spriteTransform.Rotate(new Vector3(0f, 0f, -speed * Time.fixedDeltaTime));
+            spriteTransform.Rotate(new Vector3(0f, 0f, -speed * 30 * Time.fixedDeltaTime));
+            rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            // rb.velocity = Vector2.zero;
             transform.SetParent(handBone);
             transform.localPosition = new Vector3(0f, 0f, 0f);
             transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
@@ -43,18 +44,20 @@ public class Scythe : MonoBehaviour
         {
             playerTransform = collider.gameObject.transform;
         }
-        else
-        {
-            Vector2 direction = -rb.velocity.normalized;
-            float randomDirectionValue = Random.Range(-0.75f, 0.75f);
-            
-            if(direction.x > direction.y)
-                direction = new Vector2(direction.x, direction.y + randomDirectionValue).normalized;
-            else if(direction.x < direction.y)
-                direction = new Vector2(direction.x + randomDirectionValue, direction.y).normalized;
+    }
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+        ContactPoint2D contact = collision.GetContact(0);
 
-            rb.velocity = direction * speed * Time.fixedDeltaTime; 
-        }
+        int randomDirectionValue = Random.Range(-10, 10);
+        randomDirectionValue = randomDirectionValue > 0 ? 1 : -1;
+
+        if(contact.normal.x != 0)
+                direction = new Vector2(contact.normal.x, randomDirectionValue).normalized;
+            else if(contact.normal.y != 0)
+                direction = new Vector2(randomDirectionValue, contact.normal.y).normalized;
     }
 
     public void Throw(Vector2 direction)
@@ -63,7 +66,7 @@ public class Scythe : MonoBehaviour
         {
             transform.SetParent(null);
             playerTransform = null;
-            rb.velocity = direction * speed * Time.fixedDeltaTime; 
+            this.direction = direction; 
         }
     }
 }
