@@ -55,9 +55,9 @@ public class Scythe : MonoBehaviour
         randomDirectionValue = randomDirectionValue > 0 ? 1 : -1;
 
         if(contact.normal.x != 0)
-                direction = new Vector2(contact.normal.x, randomDirectionValue).normalized;
-            else if(contact.normal.y != 0)
-                direction = new Vector2(randomDirectionValue, contact.normal.y).normalized;
+            direction = new Vector2(contact.normal.x, randomDirectionValue).normalized;
+        else if(contact.normal.y != 0)
+            direction = new Vector2(randomDirectionValue, contact.normal.y).normalized;
     }
 
     public void Throw(Vector2 direction)
