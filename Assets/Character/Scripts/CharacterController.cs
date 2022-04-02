@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    public float speed;
+    public float speed, speedMultiplier;
+    [HideInInspector]
+    public bool isRunning;
     
     private Vector2 direction = new Vector2(); 
     private Rigidbody2D rb;
@@ -13,6 +15,7 @@ public class CharacterController : MonoBehaviour
     private Transform characterTransform;
 
     private Animator animator;
+    private CharacterStats stats;
 
     void Start()
     {
@@ -20,7 +23,9 @@ public class CharacterController : MonoBehaviour
         scythe = Object.FindObjectOfType<Scythe>();
         characterTransform = transform.Find("Character");
         animator = characterTransform.GetComponent<Animator>();
+        stats = transform.GetComponent<CharacterStats>();
         cam = Camera.main;
+        isRunning = false;
     }
 
     void Update() 
@@ -40,6 +45,23 @@ public class CharacterController : MonoBehaviour
                 scythe.Throw(-mouseDirection);
             else
                 scythe.RequestReturn();
+
+        // Set run state
+        if(Input.GetKeyDown(KeyCode.LeftShift) && stats.stamina > 0f  && !isRunning)
+        {
+            isRunning = true;
+            speed *= speedMultiplier;
+            animator.speed *= speedMultiplier;
+        }
+        if((Input.GetKeyUp(KeyCode.LeftShift) || stats.stamina == 0f) && isRunning)
+        {
+            isRunning = false;
+            speed /= speedMultiplier;
+            animator.speed /= speedMultiplier;
+        }
+
+        if(isRunning) stats.ConsumeStamina();
+            
     }
     void FixedUpdate()
     {
