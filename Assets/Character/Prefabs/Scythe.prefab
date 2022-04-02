@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -186,3 +186,4 @@ MonoBehaviour:
   handBone: {fileID: 0}
   normalSprite: {fileID: 21300000, guid: 1f09a4b32d86de34aa3c02b010a084f1, type: 3}
   throwSprite: {fileID: 21300000, guid: 80de6e6dc4e371d42a635bdb3af61e64, type: 3}
+  arrowRectTransform: {fileID: 0}
