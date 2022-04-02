@@ -12,11 +12,14 @@ public class CharacterController : MonoBehaviour
     private Scythe scythe;
     private Transform characterTransform;
 
+    private Animator animator;
+
     void Start()
     {
         rb = transform.GetComponent<Rigidbody2D>();
         scythe = Object.FindObjectOfType<Scythe>();
         characterTransform = transform.Find("Character");
+        animator = characterTransform.GetComponent<Animator>();
         cam = Camera.main;
     }
 
@@ -41,5 +44,6 @@ public class CharacterController : MonoBehaviour
         direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         direction = Vector2.ClampMagnitude(direction, 1f);
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime); 
+        animator.SetBool("isRunning", direction != Vector2.zero);
     }
 }
