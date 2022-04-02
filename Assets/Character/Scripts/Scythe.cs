@@ -125,6 +125,7 @@ public class Scythe : MonoBehaviour
         transform.SetParent(handBone);
         isReturning = isThrowing = isSpecial = false;
         spriteTransform.GetComponent<SpriteRenderer>().sprite = normalSprite;
+        playerTransform.Find("Character").GetComponent<Animator>().SetTrigger("catch");
     }
 
 

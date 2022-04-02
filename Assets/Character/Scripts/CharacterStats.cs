@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -8,6 +7,7 @@ public class CharacterStats : MonoBehaviour
     const float MIN_STATS_VALUE = 0f;
 
     public float staminaConsume, manaConsume;
+    public Image healthBar, manaBar, staminaBar; 
 
     [HideInInspector]
     public float stamina;
@@ -33,7 +33,8 @@ public class CharacterStats : MonoBehaviour
         if(!scythe.isSpecial)
             AutoRestoreMana();
 
-        Debug.Log(string.Format("Stamina: {0} Mana: {1}",  (int)stamina, (int)mana));
+        manaBar.fillAmount = (1f / 100f) * mana;
+        staminaBar.fillAmount = (1f / 100f) * stamina;
     }
 
     public void ConsumeStamina()

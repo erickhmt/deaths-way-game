@@ -7,6 +7,8 @@ public class CharacterController : MonoBehaviour
     public float speed, speedMultiplier;
     [HideInInspector]
     public bool isRunning;
+    [HideInInspector]
+    public Animator animator;
     
     private Vector2 direction = new Vector2(); 
     private Rigidbody2D rb;
@@ -14,7 +16,6 @@ public class CharacterController : MonoBehaviour
     private Scythe scythe;
     private Transform characterTransform;
 
-    private Animator animator;
     private CharacterStats stats;
 
     void Start()
@@ -66,6 +67,7 @@ public class CharacterController : MonoBehaviour
         if(isRunning) stats.ConsumeStamina();
             
     }
+    
     void FixedUpdate()
     {
         // Move player
