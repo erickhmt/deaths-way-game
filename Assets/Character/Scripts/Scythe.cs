@@ -5,6 +5,7 @@ public class Scythe : MonoBehaviour
     public float speed;
     public Transform handBone;
     public Sprite normalSprite, throwSprite;
+    public RectTransform arrowRectTransform;
     
     private Rigidbody2D rb;
     private Vector2 direction;
@@ -14,6 +15,7 @@ public class Scythe : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
         rb = transform.GetComponent<Rigidbody2D>(); 
         coll = transform.GetComponent<Collider2D>();    
         spriteTransform = transform.Find("ScytheSprite");
@@ -22,17 +24,26 @@ public class Scythe : MonoBehaviour
     }
     void FixedUpdate()
     {
+        Vector3 aimTargetDiff;
         if(!playerTransform)
         {
             spriteTransform.Rotate(new Vector3(0f, 0f, -speed * 100 * Time.fixedDeltaTime));
             rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+            aimTargetDiff = Camera.main.WorldToScreenPoint(transform.position) - arrowRectTransform.position;
         }
         else
         {
             transform.localPosition = new Vector3(0f, 0f, 0f);
             transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
             spriteTransform.transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
+            aimTargetDiff = Input.mousePosition - arrowRectTransform.position;
         }
+
+        //  Update aim arrow
+        aimTargetDiff.Normalize();
+        float rot_z = Mathf.Atan2(aimTargetDiff.y, aimTargetDiff.x) * Mathf.Rad2Deg;
+        // arrowRectTransform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+        arrowRectTransform.rotation = Quaternion.Slerp(arrowRectTransform.rotation , Quaternion.Euler(0f, 0f, rot_z - 90), 2.5f * Time.fixedDeltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -61,11 +72,10 @@ public class Scythe : MonoBehaviour
     {
         if(playerTransform)
         {
-           
-            playerTransform = null;
             transform.SetParent(null);
             this.direction = direction; 
             spriteTransform.GetComponent<SpriteRenderer>().sprite = throwSprite;
+            playerTransform = null;
         }
     }
 
