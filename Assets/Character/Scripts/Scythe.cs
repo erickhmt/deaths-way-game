@@ -52,10 +52,14 @@ public class Scythe : MonoBehaviour
         int randomDirectionValue = Random.Range(-10, 10);
         randomDirectionValue = randomDirectionValue > 0 ? 1 : -1;
 
-        if(contact.normal.x != 0)
-            direction = new Vector2(contact.normal.x, randomDirectionValue).normalized;
-        else if(contact.normal.y != 0)
-            direction = new Vector2(randomDirectionValue, contact.normal.y).normalized;
+        if(contact.normal == new Vector2(0f, -1f) || contact.normal == new Vector2(0f, 1f))
+        {
+            direction = new Vector2(direction.x > 0f ? 1f : -1f, contact.normal.y).normalized;
+        }
+        else if(contact.normal == new Vector2(-1f, 0f) || contact.normal == new Vector2(1f, 0f))
+        {
+            direction = new Vector2(contact.normal.x, direction.y > 0f ? -1f : 1f).normalized;
+        }
     }
 
     public void Throw(Vector2 direction)
