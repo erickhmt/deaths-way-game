@@ -182,11 +182,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98922159dc886844782888024999c1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
+  speed: 50
+  specialSpeedMultiplier: 2
   handBone: {fileID: 0}
   normalSprite: {fileID: 21300000, guid: 1f09a4b32d86de34aa3c02b010a084f1, type: 3}
   throwSprite: {fileID: 21300000, guid: 80de6e6dc4e371d42a635bdb3af61e64, type: 3}
+  specialSprite: {fileID: 21300000, guid: 74b6dc8296aa3e6498616a777ffabccc, type: 3}
   arrowRectTransform: {fileID: 0}
   cursorTexture: {fileID: 2800000, guid: affb3b4628b225a43929e49eec518be2, type: 3}
   isReturning: 0
   isThrowing: 0
+  isSpecial: 0

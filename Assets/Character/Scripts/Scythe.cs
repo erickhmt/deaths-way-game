@@ -2,18 +2,20 @@ using UnityEngine;
 
 public class Scythe : MonoBehaviour
 {
-    public float speed;
+    public float speed, specialSpeedMultiplier;
     public Transform handBone;
-    public Sprite normalSprite, throwSprite;
+    public Sprite normalSprite, throwSprite, specialSprite;
     public RectTransform arrowRectTransform;
     public Texture2D cursorTexture;
-    public bool isReturning, isThrowing = false;
+    [HideInInspector]
+    public bool isReturning, isThrowing, isSpecial = false;
     
     private Rigidbody2D rb;
     private Vector2 direction;
     private Transform spriteTransform;
     private Transform playerTransform;
     private Collider2D coll;
+    private CharacterStats stats;
 
     void Start()
     {
@@ -22,20 +24,42 @@ public class Scythe : MonoBehaviour
         coll = transform.GetComponent<Collider2D>();    
         spriteTransform = transform.Find("ScytheSprite");
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        stats = playerTransform.GetComponent<CharacterStats>();
 
         Get();
+    }
+
+    void Update() 
+    {
+        // Set special state
+        if(isThrowing)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse1) && stats.mana > 0f && !isSpecial)
+            {
+                isSpecial = true;
+                speed *= specialSpeedMultiplier;
+                spriteTransform.GetComponent<SpriteRenderer>().sprite = specialSprite;
+            }
+            if((Input.GetKeyUp(KeyCode.Mouse1) || stats.mana == 0f) && isSpecial)
+            {
+                isSpecial = false;
+                speed /= specialSpeedMultiplier;
+                spriteTransform.GetComponent<SpriteRenderer>().sprite = throwSprite;
+            }
+        }
+
+        if(isSpecial) stats.ConsumeMana();
     }
     void FixedUpdate()
     {
         if(isThrowing)
         {
-            spriteTransform.Rotate(new Vector3(0f, 0f, -speed * 100 * Time.fixedDeltaTime));
+            spriteTransform.Rotate(new Vector3(0f, 0f, -400000 * Time.fixedDeltaTime));
             
             if(isReturning)
             {
                 Vector3 distance = Camera.main.WorldToScreenPoint(playerTransform.position) - Camera.main.WorldToScreenPoint(transform.position);
-                Debug.Log(distance);
-                if (distance.magnitude < new Vector3(1f, 1f, 1f).magnitude)
+                if (distance.magnitude < 20)
                     Get();
                 direction = distance.normalized;
             }
@@ -59,12 +83,6 @@ public class Scythe : MonoBehaviour
             transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
             spriteTransform.transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if(collider.gameObject.tag == "Player")
-            Get();
     }
     
     void OnCollisionEnter2D(Collision2D collision)
@@ -101,9 +119,11 @@ public class Scythe : MonoBehaviour
 
     public void Get()
     {
-        isReturning = false;
-        isThrowing = false;
+        if(isSpecial)
+            speed /= specialSpeedMultiplier;
+
         transform.SetParent(handBone);
+        isReturning = isThrowing = isSpecial = false;
         spriteTransform.GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
