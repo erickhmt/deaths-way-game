@@ -2,29 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterController : MonoBehaviour
 {
     public float speed;
     
     private Vector2 direction = new Vector2(); 
     private Rigidbody2D rb;
-    private SpriteRenderer sprite;
     private Camera cam;
+    private Scythe scythe;
+    private Transform characterTransform;
+
     void Start()
     {
         rb = transform.GetComponent<Rigidbody2D>();
-        sprite = transform.GetComponent<SpriteRenderer>();
+        scythe = Object.FindObjectOfType<Scythe>();
+        characterTransform = transform.Find("Character");
         cam = Camera.main;
     }
 
     void Update() 
     {
-        // Flip sprite by mouse position
         Vector3 playerScreenPos = cam.WorldToScreenPoint(transform.position);
-        if((playerScreenPos - Input.mousePosition).x > 0f)
-            sprite.flipX = true;
+        Vector2 mouseDirection = (playerScreenPos - Input.mousePosition).normalized;
+ 
+        // Flip sprite by mouse position
+        if(mouseDirection.x > 0f)
+            characterTransform.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
         else
-            sprite.flipX = false; 
+            characterTransform.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+
+        // Throw scythe
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+            scythe.Throw(-mouseDirection);
     }
     void FixedUpdate()
     {
