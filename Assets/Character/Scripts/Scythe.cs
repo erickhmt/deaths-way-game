@@ -119,6 +119,7 @@ public class Scythe : MonoBehaviour
             transform.SetParent(null);
             this.direction = direction; 
             spriteRenderer.sprite = throwSprite;
+            spriteRenderer.GetComponent<CircleCollider2D>().isTrigger = false;
             isThrowing = true;
         }
     }
@@ -136,6 +137,7 @@ public class Scythe : MonoBehaviour
         transform.SetParent(handBone);
         isReturning = isThrowing = isSpecial = false;
         spriteRenderer.sprite = normalSprite;
+        spriteRenderer.GetComponent<CircleCollider2D>().isTrigger = true;
         playerTransform.Find("Character").GetComponent<Animator>().SetTrigger("catch");
     }
 

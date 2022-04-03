@@ -16656,6 +16656,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Outside Corner Wall (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6588271438665216951, guid: 0a36f48da39a9dc4fa29ea02a3c816a2, type: 3}
+      propertyPath: m_Size.y
+      value: 7.27
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a36f48da39a9dc4fa29ea02a3c816a2, type: 3}
 --- !u!1001 &1320520950008504127
