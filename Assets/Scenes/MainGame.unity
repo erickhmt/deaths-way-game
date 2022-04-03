@@ -10364,6 +10364,14 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
+      propertyPath: hardEnemy
+      value: 
+      objectReference: {fileID: 2208722161172943738, guid: 1a6370aa426425c41924ea6e076fa23c, type: 3}
+    - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
+      propertyPath: simpleEnemy
+      value: 
+      objectReference: {fileID: 1395797367130370635, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
+    - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
       propertyPath: teleportPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -10718,6 +10726,14 @@ PrefabInstance:
       propertyPath: maxWave
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
+      propertyPath: hardEnemy
+      value: 
+      objectReference: {fileID: 2208722161172943738, guid: 1a6370aa426425c41924ea6e076fa23c, type: 3}
+    - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
+      propertyPath: simpleEnemy
+      value: 
+      objectReference: {fileID: 1395797367130370635, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
     - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
       propertyPath: teleportPoints.Array.size
       value: 2
@@ -12080,6 +12096,14 @@ PrefabInstance:
       propertyPath: maxWave
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
+      propertyPath: hardEnemy
+      value: 
+      objectReference: {fileID: 2208722161172943738, guid: 1a6370aa426425c41924ea6e076fa23c, type: 3}
+    - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
+      propertyPath: simpleEnemy
+      value: 
+      objectReference: {fileID: 1395797367130370635, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
     - target: {fileID: 7523309659394460185, guid: cf06fc1f921dc4047ac643fca827545e, type: 3}
       propertyPath: teleportPoints.Array.size
       value: 2

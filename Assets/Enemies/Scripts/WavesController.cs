@@ -7,7 +7,7 @@ public class WavesController : MonoBehaviour
     public int maxWave;
     public Transform[] spawnPoints;
     public Teleport[] teleportPoints;
-    public GameObject[] enemies;
+    public GameObject simpleEnemy, hardEnemy;
     private bool isStarted, isFinished;
     private int totalEnemiesSpawnedInCurrentWave, totalEnemiesPerWave, waveCounter;
     private Transform lastSpawnPoint;
@@ -33,11 +33,18 @@ public class WavesController : MonoBehaviour
                     while(spawnPoint == lastSpawnPoint)
                         spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
 
-                    GameObject.Instantiate(
-                        enemies[Random.Range(0, enemies.Length - 1)], 
-                        spawnPoint.position, 
-                        transform.rotation
-                    );
+                    if(Random.Range(0, 100) > 90)
+                        GameObject.Instantiate(
+                            hardEnemy, 
+                            spawnPoint.position, 
+                            transform.rotation
+                        );
+                    else
+                        GameObject.Instantiate(
+                            simpleEnemy, 
+                            spawnPoint.position, 
+                            transform.rotation
+                        );
 
                     lastSpawnPoint = spawnPoint;
                     totalEnemiesSpawnedInCurrentWave++;

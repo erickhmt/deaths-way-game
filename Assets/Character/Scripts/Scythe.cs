@@ -108,7 +108,19 @@ public class Scythe : MonoBehaviour
             Get();
         else if(collider.gameObject.tag == "Enemy" && isThrowing)
         {
-            collider.gameObject.GetComponent<Enemy>().TakeDamage(isSpecial ? Random.Range(20f, 30f) : Random.Range(10f, 20f));
+            
+            if (collider.gameObject.GetComponent<Enemy>())
+            {
+                Enemy enemy;
+                enemy = collider.gameObject.GetComponent<Enemy>();
+                enemy.TakeDamage(isSpecial ? Random.Range(20f, 30f) : Random.Range(10f, 20f));
+            }   
+            else
+            {
+                DistanceEnemy enemy;
+                enemy = collider.gameObject.GetComponent<DistanceEnemy>();
+                enemy.TakeDamage(isSpecial ? Random.Range(20f, 30f) : Random.Range(10f, 20f));
+            }
         }
     }
 
