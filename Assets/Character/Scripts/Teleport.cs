@@ -32,6 +32,7 @@ public class Teleport : MonoBehaviour
     IEnumerator DoTeleport()
     {
         yield return new WaitForSeconds(.5f);
-        player.position = connectPoint.position;   
+        player.position = connectPoint.position; 
+        Object.FindObjectOfType<Scythe>().Get();
     }
 }
