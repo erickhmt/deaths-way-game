@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 827755476}
   - component: {fileID: 827755475}
   m_Layer: 0
-  m_Name: TeleportPoint (2)
+  m_Name: TeleportPoint4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -780,7 +780,7 @@ GameObject:
   - component: {fileID: 942670524}
   - component: {fileID: 942670525}
   m_Layer: 0
-  m_Name: TeleportPoint
+  m_Name: TeleportPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -904,7 +904,7 @@ GameObject:
   - component: {fileID: 954942032}
   - component: {fileID: 954942035}
   m_Layer: 0
-  m_Name: TeleportPoint
+  m_Name: TeleportPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1671,7 +1671,7 @@ GameObject:
   - component: {fileID: 1966375463}
   - component: {fileID: 1966375462}
   m_Layer: 0
-  m_Name: TeleportPoint (1)
+  m_Name: TeleportPoint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
