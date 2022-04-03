@@ -25,7 +25,6 @@ public class Teleport : MonoBehaviour
         
         if(isActive && ((player.position - transform.position).magnitude < 10f) && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log((player.position - transform.position).magnitude);
             StartCoroutine(DoTeleport());
         }   
     }
