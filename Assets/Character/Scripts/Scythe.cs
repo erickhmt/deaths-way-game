@@ -105,9 +105,9 @@ public class Scythe : MonoBehaviour
     {
         if(collider.gameObject.tag == "Player")
             Get();
-        else if(collider.gameObject.tag == "Enemy")
+        else if(collider.gameObject.tag == "Enemy" && isThrowing)
         {
-            collider.gameObject.GetComponent<Enemy>().ThrowBack(direction);
+            collider.gameObject.GetComponent<Enemy>().Damage(isSpecial ? Random.Range(20f, 30f) : Random.Range(10f, 20f));
         }
     }
 
