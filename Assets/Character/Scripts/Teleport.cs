@@ -7,10 +7,12 @@ public class Teleport : MonoBehaviour
     public Transform connectPoint;
     public bool isActive;
     private SpriteRenderer sprite;
+    private Transform player;
     void Start()
     {
         isActive = true;
         sprite = transform.GetComponent<SpriteRenderer>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void FixedUpdate() 
@@ -18,11 +20,19 @@ public class Teleport : MonoBehaviour
         sprite.enabled = !isActive;
     }
 
-    void OnTriggerStay2D(Collider2D collider)
+    void Update()
     {
-        if(isActive && collider.gameObject.tag == "Player" && Input.GetKeyUp(KeyCode.E))
+        
+        if(isActive && ((player.position - transform.position).magnitude < 10f) && Input.GetKeyDown(KeyCode.E))
         {
-            collider.gameObject.transform.position = connectPoint.position;
-        }
+            Debug.Log((player.position - transform.position).magnitude);
+            StartCoroutine(DoTeleport());
+        }   
+    }
+
+    IEnumerator DoTeleport()
+    {
+        yield return new WaitForSeconds(.5f);
+        player.position = connectPoint.position;   
     }
 }
