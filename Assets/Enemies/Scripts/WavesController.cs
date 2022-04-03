@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WavesController : MonoBehaviour
 {
@@ -8,9 +7,12 @@ public class WavesController : MonoBehaviour
     public Transform[] spawnPoints;
     public Teleport[] teleportPoints;
     public GameObject simpleEnemy, hardEnemy;
+    public Transform waveStatusPanel;
     private bool isStarted, isFinished;
     private int totalEnemiesSpawnedInCurrentWave, totalEnemiesPerWave, waveCounter;
     private Transform lastSpawnPoint;
+    public Color finishedColor, inProgressColor;
+    
 
     void Start() 
     {
@@ -60,10 +62,14 @@ public class WavesController : MonoBehaviour
                     isFinished = true;
                     foreach(Teleport tp in teleportPoints)
                         tp.isActive = true;
-                    Debug.Log("All enemies defeated");
+                    waveStatusPanel.Find("StatusLabel").GetComponent<TextMeshProUGUI>().SetText("WAVE FINISHED");
+                    waveStatusPanel.Find("StatusLabel").GetComponent<TextMeshProUGUI>().color = finishedColor;
+                    waveStatusPanel.Find("CounterLabel").GetComponent<TextMeshProUGUI>().color = finishedColor;
                 }
                 else
-                    Debug.Log(string.Format("Wave: {0} Enemies:{1}", waveCounter, totalEnemiesPerWave));
+                    waveStatusPanel.Find("CounterLabel").GetComponent<TextMeshProUGUI>().SetText(
+                        string.Format("{0}/{1}", waveCounter, maxWave)
+                    );
             }
         }
     }
@@ -73,6 +79,13 @@ public class WavesController : MonoBehaviour
         if(!isStarted && collider.gameObject.tag == "Player")
         {
             isStarted = true;
+            waveStatusPanel.gameObject.SetActive(true);
+            waveStatusPanel.Find("StatusLabel").GetComponent<TextMeshProUGUI>().color = inProgressColor;
+            waveStatusPanel.Find("CounterLabel").GetComponent<TextMeshProUGUI>().color = inProgressColor;
+            waveStatusPanel.Find("StatusLabel").GetComponent<TextMeshProUGUI>().SetText("WAVE IN PROGRESS");
+            waveStatusPanel.Find("CounterLabel").GetComponent<TextMeshProUGUI>().SetText(
+                string.Format("1/{0}", maxWave)
+            );
             foreach(Teleport tp in teleportPoints)
                 tp.isActive = false;
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     public Transform connectPoint;
+    public GameObject wavePanel;
     public bool isActive;
     private SpriteRenderer sprite;
     private Transform player;
@@ -34,5 +35,6 @@ public class Teleport : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         player.position = connectPoint.position; 
         Object.FindObjectOfType<Scythe>().Get();
+        wavePanel.SetActive(false);
     }
 }
