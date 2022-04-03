@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed, attackDistance, delayBetweenAttacks, maxHealth;
+    public float speed, attackDistance, delayBetweenAttacks, maxHealth, damage;
     private Rigidbody2D rb;
     private Transform target;
     private Vector2 direction;
     private Animator animator;
     private bool canAttack, isDead;
     private float health;
+    private Transform character;
+    private CharacterStats targetStats;
     void Start()
     {   
         health = maxHealth;
+        canAttack = true;
         isDead = false;
+        character = transform.Find("Character");
         rb = transform.GetComponent<Rigidbody2D>();  
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        animator = transform.Find("Character").GetComponent<Animator>();
+        animator = character.GetComponent<Animator>();
+        targetStats = target.GetComponent<CharacterStats>();
     }
 
     void FixedUpdate()
     {
-        if(!isDead)
+        if(!isDead && canAttack)
         {
-            if((target.position - transform.position).magnitude < attackDistance && canAttack)
+            if((target.position - transform.position).magnitude < attackDistance)
                 Attack();
-            else
+            else if(animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
                 FollowTarget();
         }
     }
@@ -41,30 +46,32 @@ public class Enemy : MonoBehaviour
     {
         animator.SetTrigger("attack");
         animator.SetBool("isAttacking", true);
+        targetStats.TakeDamage(damage);
 
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
         while(animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-            yield return null;   
+            yield return new WaitForSeconds(0.1f);   
 
-        yield return new WaitForSeconds(delayBetweenAttacks);
         animator.SetBool("isAttacking", false);
+        yield return new WaitForSeconds(delayBetweenAttacks);
         canAttack = true;
     }
 
-    public void Damage(float damage) 
+    public void TakeDamage(float damage) 
     {
         health -= damage;
         if(health < 0 && !isDead)
         {
-            canAttack = false;
             isDead = true;
+            canAttack = false;
             StartCoroutine("Death");
         }
     }
     IEnumerator Death()
     {
+        rb.velocity = Vector2.zero;
         animator.SetTrigger("death");
-        yield return new WaitForSeconds(5f);   
+        targetStats.RestoreMana(10f);
+        yield return new WaitForSeconds(5f);
         GameObject.Destroy(transform.gameObject);
     }
 
@@ -73,5 +80,10 @@ public class Enemy : MonoBehaviour
         direction = (target.position - transform.position).normalized;
         direction = Vector2.ClampMagnitude(direction, 1f);
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime); 
+
+        if(target.position.x - transform.position.x > 0f)
+            character.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);    
+        else if(target.position.x - transform.position.x < 0f)
+            character.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  
     }
 }

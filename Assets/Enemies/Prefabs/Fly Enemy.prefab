@@ -259,9 +259,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  attackDistance: 6
-  delayBetweenAttacks: 0
+  attackDistance: 2.5
+  delayBetweenAttacks: 0.5
   maxHealth: 100
+  damage: 10
 --- !u!1 &1581451314931885438
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,7 +750,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 224a2cebf4e9e42408d69d5c56841951, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

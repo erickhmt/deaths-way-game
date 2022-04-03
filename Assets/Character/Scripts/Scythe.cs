@@ -16,7 +16,7 @@ public class Scythe : MonoBehaviour
     private Transform playerTransform;
     private Collider2D coll;
     private CharacterStats stats;
-
+    private SpriteRenderer spriteRenderer;
     void Start()
     {
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.ForceSoftware);
@@ -25,6 +25,7 @@ public class Scythe : MonoBehaviour
         spriteTransform = transform.Find("ScytheSprite");
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         stats = playerTransform.GetComponent<CharacterStats>();
+        spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
 
         Get();
     }
@@ -38,13 +39,13 @@ public class Scythe : MonoBehaviour
             {
                 isSpecial = true;
                 speed *= specialSpeedMultiplier;
-                spriteTransform.GetComponent<SpriteRenderer>().sprite = specialSprite;
+                spriteRenderer.sprite = specialSprite;
             }
             if((Input.GetKeyUp(KeyCode.Mouse1) || stats.mana == 0f) && isSpecial)
             {
                 isSpecial = false;
                 speed /= specialSpeedMultiplier;
-                spriteTransform.GetComponent<SpriteRenderer>().sprite = throwSprite;
+                spriteRenderer.sprite = throwSprite;
             }
         }
 
@@ -65,7 +66,7 @@ public class Scythe : MonoBehaviour
             }
             rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
 
-            if(!spriteTransform.GetComponent<SpriteRenderer>().isVisible)
+            if(!spriteRenderer.isVisible)
             {
                 //  Update scythe direction arrow
                 Vector3 aimTargetDiff = Camera.main.WorldToScreenPoint(transform.position) - arrowRectTransform.position;
@@ -107,7 +108,7 @@ public class Scythe : MonoBehaviour
             Get();
         else if(collider.gameObject.tag == "Enemy" && isThrowing)
         {
-            collider.gameObject.GetComponent<Enemy>().Damage(isSpecial ? Random.Range(20f, 30f) : Random.Range(10f, 20f));
+            collider.gameObject.GetComponent<Enemy>().TakeDamage(isSpecial ? Random.Range(20f, 30f) : Random.Range(10f, 20f));
         }
     }
 
@@ -117,7 +118,7 @@ public class Scythe : MonoBehaviour
         {
             transform.SetParent(null);
             this.direction = direction; 
-            spriteTransform.GetComponent<SpriteRenderer>().sprite = throwSprite;
+            spriteRenderer.sprite = throwSprite;
             isThrowing = true;
         }
     }
@@ -134,7 +135,7 @@ public class Scythe : MonoBehaviour
 
         transform.SetParent(handBone);
         isReturning = isThrowing = isSpecial = false;
-        spriteTransform.GetComponent<SpriteRenderer>().sprite = normalSprite;
+        spriteRenderer.sprite = normalSprite;
         playerTransform.Find("Character").GetComponent<Animator>().SetTrigger("catch");
     }
 
