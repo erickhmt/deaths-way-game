@@ -139,7 +139,7 @@ public class Scythe : MonoBehaviour
         spriteRenderer.sprite = normalSprite;
         spriteRenderer.GetComponent<CircleCollider2D>().isTrigger = true;
         playerTransform.Find("Character").GetComponent<Animator>().SetTrigger("catch");
+        arrowRectTransform.gameObject.SetActive(false);
     }
-
 
 }

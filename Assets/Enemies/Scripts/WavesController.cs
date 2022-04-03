@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class WavesController : MonoBehaviour
 {
+    public int maxWave;
     public Transform[] spawnPoints;
     public Teleport[] teleportPoints;
     public GameObject[] enemies;
     private bool isStarted, isFinished;
-    private int totalEnemiesSpawnedInCurrentWave, totalEnemiesPerWave, waveCounter, maxWave;
+    private int totalEnemiesSpawnedInCurrentWave, totalEnemiesPerWave, waveCounter;
+    private Transform lastSpawnPoint;
 
     void Start() 
     {
         isStarted = isFinished = false;
-        totalEnemiesSpawnedInCurrentWave = maxWave = 0;
+        totalEnemiesSpawnedInCurrentWave = 0;
         
         waveCounter = 1;
         totalEnemiesPerWave = 4;
@@ -25,14 +27,19 @@ public class WavesController : MonoBehaviour
         {
             if(totalEnemiesSpawnedInCurrentWave < totalEnemiesPerWave)
             {
-                if(GameObject.FindGameObjectsWithTag("Enemy").Length < (totalEnemiesPerWave / 4 < 10 ? totalEnemiesPerWave / 4 : 10))
+                if(GameObject.FindGameObjectsWithTag("Enemy").Length < 10)
                 {
+                    Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
+                    while(spawnPoint == lastSpawnPoint)
+                        spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
+
                     GameObject.Instantiate(
                         enemies[Random.Range(0, enemies.Length - 1)], 
-                        spawnPoints[Random.Range(0, spawnPoints.Length - 1)].position, 
+                        spawnPoint.position, 
                         transform.rotation
                     );
-                    
+
+                    lastSpawnPoint = spawnPoint;
                     totalEnemiesSpawnedInCurrentWave++;
                 }
             }
