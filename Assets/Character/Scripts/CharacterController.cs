@@ -51,13 +51,13 @@ public class CharacterController : MonoBehaviour
                 scythe.RequestReturn();
 
         // Set run state
-        if(Input.GetKeyDown(KeyCode.LeftShift) && stats.stamina > 0f  && !isRunning)
+        if(Input.GetKeyDown(KeyCode.LeftShift) && stats.stamina > 0f  && !isRunning && direction != Vector2.zero)
         {
             isRunning = true;
             speed *= speedMultiplier;
             animator.speed *= speedMultiplier;
         }
-        if((Input.GetKeyUp(KeyCode.LeftShift) || stats.stamina == 0f) && isRunning)
+        if((Input.GetKeyUp(KeyCode.LeftShift) || stats.stamina == 0f || direction == Vector2.zero) && isRunning)
         {
             isRunning = false;
             speed /= speedMultiplier;
