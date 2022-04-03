@@ -105,6 +105,10 @@ public class Scythe : MonoBehaviour
     {
         if(collider.gameObject.tag == "Player")
             Get();
+        else if(collider.gameObject.tag == "Enemy")
+        {
+            collider.gameObject.GetComponent<Enemy>().ThrowBack(direction);
+        }
     }
 
     public void Throw(Vector2 direction)
