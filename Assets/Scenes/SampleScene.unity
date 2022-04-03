@@ -1035,18 +1035,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1395797367130370631, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
-      propertyPath: maxHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1395797367130370631, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
-      propertyPath: attackDistance
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1395797367130370631, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
-      propertyPath: delayBetweenAttacks
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1395797367130370632, guid: 5cee311fed0444a46b3b93c358f095a6, type: 3}
       propertyPath: m_RootOrder
       value: 9

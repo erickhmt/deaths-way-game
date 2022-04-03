@@ -259,8 +259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  attackDistance: 2
-  delayBetweenAttacks: 1
+  attackDistance: 6
+  delayBetweenAttacks: 0
+  maxHealth: 100
 --- !u!1 &1581451314931885438
 GameObject:
   m_ObjectHideFlags: 0
