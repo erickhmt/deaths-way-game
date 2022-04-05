@@ -97,6 +97,7 @@ public class DistanceEnemy : MonoBehaviour
         rb.velocity = Vector2.zero;
         animator.SetTrigger("death");
         targetStats.RestoreMana(25f);
+        targetStats.RestoreHealth(5f);
         yield return new WaitForSeconds(5f);
         GameObject.Destroy(transform.gameObject);
     }

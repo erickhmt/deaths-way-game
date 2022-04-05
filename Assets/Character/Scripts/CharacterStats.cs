@@ -73,4 +73,9 @@ public class CharacterStats : MonoBehaviour
     {
         mana = mana + amount < MAX_STATS_VALUE ? mana + amount : MAX_STATS_VALUE;
     }
+
+    public void RestoreHealth(float amount)
+    {
+        health = health + amount < MAX_STATS_VALUE ? health + amount : MAX_STATS_VALUE;
+    }
 }
