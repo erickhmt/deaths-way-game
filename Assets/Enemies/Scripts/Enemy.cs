@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private Vector2 direction;
     private Animator animator;
     private bool canAttack, isDead;
-    private float health;
+    public float health;
     private Transform character;
     private CharacterStats targetStats;
     void Start()

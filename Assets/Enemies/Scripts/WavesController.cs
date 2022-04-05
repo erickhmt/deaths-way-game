@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -8,14 +9,16 @@ public class WavesController : MonoBehaviour
     public Teleport[] teleportPoints;
     public GameObject simpleEnemy, hardEnemy;
     public Transform waveStatusPanel;
-    private bool isStarted, isFinished;
+    private bool isStarted, isFinished, canSpawn;
     private int totalEnemiesSpawnedInCurrentWave, totalEnemiesPerWave, waveCounter;
     private Transform lastSpawnPoint;
     public Color finishedColor, inProgressColor;
+    public GameObject enemyHealthBar;
     
 
     void Start() 
     {
+        canSpawn = true;
         isStarted = isFinished = false;
         totalEnemiesSpawnedInCurrentWave = 0;
         
@@ -29,31 +32,14 @@ public class WavesController : MonoBehaviour
         {
             if(totalEnemiesSpawnedInCurrentWave < totalEnemiesPerWave)
             {
-                if(GameObject.FindGameObjectsWithTag("Enemy").Length < 10)
+                if(GameObject.FindGameObjectsWithTag("Enemy").Length < 10 && canSpawn)
                 {
-                    Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
-                    while(spawnPoint == lastSpawnPoint)
-                        spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
-
-                    if(Random.Range(0, 100) > 90)
-                        GameObject.Instantiate(
-                            hardEnemy, 
-                            spawnPoint.position, 
-                            transform.rotation
-                        );
-                    else
-                        GameObject.Instantiate(
-                            simpleEnemy, 
-                            spawnPoint.position, 
-                            transform.rotation
-                        );
-
-                    lastSpawnPoint = spawnPoint;
-                    totalEnemiesSpawnedInCurrentWave++;
+                    StartCoroutine(Spawn());
                 }
             }
             else if(GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
             {
+                totalEnemiesSpawnedInCurrentWave = 0;
                 totalEnemiesPerWave += (int)(totalEnemiesPerWave/2);
                 waveCounter++;
 
@@ -74,6 +60,51 @@ public class WavesController : MonoBehaviour
         }
     }
 
+    IEnumerator Spawn() 
+    {
+        canSpawn = false;
+
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
+        while(spawnPoint == lastSpawnPoint)
+            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
+
+        GameObject tmpBar;
+        tmpBar =  GameObject.Instantiate(
+            enemyHealthBar, 
+            Vector3.zero, 
+            new Quaternion(0f, 0f, 0f, 0f)
+        );
+        tmpBar.transform.SetParent(GameObject.Find("Canvas/EnemiesBars/").transform);
+
+        GameObject newEnemy;
+        if(Random.Range(0, 100) > 90)
+        {
+            newEnemy = GameObject.Instantiate(
+                hardEnemy, 
+                spawnPoint.position, 
+                transform.rotation
+            );
+            tmpBar.GetComponent<UpdateEnemyHealthBar>().hardEnemy = newEnemy.GetComponent<DistanceEnemy>();
+        }
+        else
+        {
+            newEnemy = GameObject.Instantiate(
+                simpleEnemy, 
+                spawnPoint.position, 
+                transform.rotation
+            );
+            tmpBar.GetComponent<UpdateEnemyHealthBar>().normalEnemy = newEnemy.GetComponent<Enemy>();
+        }
+        tmpBar.GetComponent<UpdateEnemyHealthBar>().offset = new Vector2(0f, 70f);
+        tmpBar.GetComponent<UpdateEnemyHealthBar>().enemyTransform = newEnemy.transform;
+
+        lastSpawnPoint = spawnPoint;
+        totalEnemiesSpawnedInCurrentWave++;
+
+        yield return new WaitForSeconds(1.3f);
+        canSpawn = true;
+    } 
+    
     void OnTriggerEnter2D(Collider2D collider) 
     {
         if(!isStarted && collider.gameObject.tag == "Player")

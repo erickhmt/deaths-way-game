@@ -24,10 +24,11 @@ public class Teleport : MonoBehaviour
     void Update()
     {
         
-        if(isActive && ((player.position - transform.position).magnitude < 10f) && Input.GetKeyDown(KeyCode.E))
+        if(isActive && (player.position - transform.position).magnitude < 10f)
         {
-            StartCoroutine(DoTeleport());
-        }   
+            if(Input.GetKeyDown(KeyCode.E))
+                StartCoroutine(DoTeleport());
+        }
     }
 
     IEnumerator DoTeleport()

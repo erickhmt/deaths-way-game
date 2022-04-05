@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
     public float speed, speedMultiplier;
+    public Transform commands;
     [HideInInspector]
     public bool isRunning;
     [HideInInspector]
@@ -44,18 +45,28 @@ public class CharacterController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Mouse0))
             if(!scythe.isThrowing)
             {
+                commands.Find("Throw Scythe").gameObject.SetActive(false);
+                commands.Find("Get Scythe").gameObject.SetActive(true);
                 scythe.Throw(-mouseDirection);
                 animator.SetTrigger("throw");
             }
             else
+            {
                 scythe.RequestReturn();
+                commands.Find("Get Scythe").gameObject.SetActive(false);
+            }
 
         // Set run state
-        if(Input.GetKeyDown(KeyCode.LeftShift) && stats.stamina > 0f  && !isRunning && direction != Vector2.zero)
+        if(stats.stamina > 0f  && !isRunning && direction != Vector2.zero)
         {
-            isRunning = true;
-            speed *= speedMultiplier;
-            animator.speed *= speedMultiplier;
+            commands.Find("Run").gameObject.SetActive(true);
+
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isRunning = true;
+                speed *= speedMultiplier;
+                animator.speed *= speedMultiplier;
+            }   
         }
         if((Input.GetKeyUp(KeyCode.LeftShift) || stats.stamina == 0f || direction == Vector2.zero) && isRunning)
         {

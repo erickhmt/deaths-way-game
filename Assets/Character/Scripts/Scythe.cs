@@ -6,6 +6,7 @@ public class Scythe : MonoBehaviour
     public Transform handBone;
     public Sprite normalSprite, throwSprite, specialSprite;
     public RectTransform arrowRectTransform;
+    public Transform commands;
     public Texture2D cursorTexture;
     [HideInInspector]
     public bool isReturning, isThrowing, isSpecial = false;
@@ -35,19 +36,27 @@ public class Scythe : MonoBehaviour
         // Set special state
         if(isThrowing)
         {
-            if(Input.GetKeyDown(KeyCode.Mouse1) && stats.mana > 0f && !isSpecial)
+            if(stats.mana > 0f && !isSpecial)
             {
-                isSpecial = true;
-                speed *= specialSpeedMultiplier;
-                spriteRenderer.sprite = specialSprite;
+                commands.Find("Scythe Special").gameObject.SetActive(true);
+
+                if(Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    isSpecial = true;
+                    speed *= specialSpeedMultiplier;
+                    spriteRenderer.sprite = specialSprite;
+                }
             }
             if((Input.GetKeyUp(KeyCode.Mouse1) || stats.mana == 0f) && isSpecial)
             {
                 isSpecial = false;
                 speed /= specialSpeedMultiplier;
                 spriteRenderer.sprite = throwSprite;
+                commands.Find("Scythe Special").gameObject.SetActive(false);
             }
         }
+        else
+            commands.Find("Scythe Special").gameObject.SetActive(false);
 
         if(isSpecial) stats.ConsumeMana();
     }
@@ -152,6 +161,8 @@ public class Scythe : MonoBehaviour
         spriteRenderer.GetComponent<CircleCollider2D>().isTrigger = true;
         playerTransform.Find("Character").GetComponent<Animator>().SetTrigger("catch");
         arrowRectTransform.gameObject.SetActive(false);
+
+        commands.Find("Throw Scythe").gameObject.SetActive(true);
     }
 
 }
