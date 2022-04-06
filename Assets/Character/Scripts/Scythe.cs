@@ -20,6 +20,7 @@ public class Scythe : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     void Start()
     {
+        Cursor.visible = true;
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.ForceSoftware);
         rb = transform.GetComponent<Rigidbody2D>(); 
         coll = transform.GetComponent<Collider2D>();    

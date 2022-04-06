@@ -14,6 +14,7 @@ public class CutScene : MonoBehaviour
     {
         index = 0;
         img = transform.GetComponent<Image>();
+        Cursor.visible = false;
     }
 
     void Update()
