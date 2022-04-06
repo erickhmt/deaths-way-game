@@ -5,6 +5,7 @@ public class EndLoader : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collider)
     {
-        SceneManager.LoadScene("End");
+        if(collider.tag == "Player")
+            SceneManager.LoadScene("End");
     }
 }
